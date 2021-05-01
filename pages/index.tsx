@@ -1,6 +1,27 @@
 import Head from 'next/head'
+import { useQuery, gql, NormalizedCacheObject } from '@apollo/client'
+import { initializeApollo } from 'src/apollo'
+
+const MyQuery = gql`
+  query MyQuery {
+    todo {
+      id
+      userId
+      title
+      completed
+    }
+  }
+`
 
 const Home = (): JSX.Element => {
+  const {
+    data: { todo },
+    loading,
+  } = useQuery(MyQuery)
+
+  const { id, userId, title, completed } = todo
+
+  if (loading) return <span>loading...</span>
   return (
     <div>
       <Head>
@@ -10,10 +31,27 @@ const Home = (): JSX.Element => {
       </Head>
 
       <main>
-        <h1>NextJS</h1>
+        <h1>{id}</h1>
+        <h1>{userId}</h1>
+        <h1>{title}</h1>
+        <h1>{completed}</h1>
       </main>
     </div>
   )
 }
 
 export default Home
+
+export async function getStaticProps(): Promise<NormalizedCacheObject> {
+  const apolloClient = initializeApollo()
+
+  await apolloClient.query({
+    query: MyQuery,
+  })
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  }
+}
