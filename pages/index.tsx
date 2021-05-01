@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { useQuery, gql, NormalizedCacheObject } from '@apollo/client'
 import { initializeApollo } from 'src/apollo'
+import { TodoInterface } from '../src/interfaces'
 
 const MyQuery = gql`
   query MyQuery {
@@ -13,13 +14,15 @@ const MyQuery = gql`
   }
 `
 
-const Home = (): JSX.Element => {
-  const {
-    data: { todo },
-    loading,
-  } = useQuery(MyQuery)
+interface HomeData {
+  todo: TodoInterface
+}
 
-  const { id, userId, title, completed } = todo
+const Home = (): JSX.Element => {
+  const { data, loading } = useQuery<HomeData>(MyQuery)
+  const {
+    todo: { id, title, userId, completed },
+  } = data as HomeData
 
   if (loading) return <span>loading...</span>
   return (

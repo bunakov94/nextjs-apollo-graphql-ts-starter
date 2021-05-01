@@ -17,7 +17,6 @@ const Query = queryType({
       type: Todo,
       resolve: async () => {
         const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-        console.log(res)
         return await res.json()
       },
     })
