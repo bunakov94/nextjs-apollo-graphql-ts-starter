@@ -20,9 +20,12 @@ interface HomeData {
 
 const Home = (): JSX.Element => {
   const { data, loading } = useQuery<HomeData>(MyQuery)
+
+  if (!data) return <h1>No data</h1>
+
   const {
     todo: { id, title, userId, completed },
-  } = data as HomeData
+  } = data
 
   if (loading) return <span>loading...</span>
   return (
