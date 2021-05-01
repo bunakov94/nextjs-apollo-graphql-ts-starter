@@ -8,12 +8,10 @@ export type ApolloClientType = typeof apolloClient
 
 function createIsomorphicLink(): ApolloLink | SchemaLink {
   if (typeof window === 'undefined') {
-    // server
     const { SchemaLink } = require('@apollo/client/link/schema')
     const { schema } = require('./schema')
     return new SchemaLink({ schema })
   } else {
-    // client
     const { HttpLink } = require('@apollo/client/link/http')
     return new HttpLink({ uri: '/api/graphql' })
   }
