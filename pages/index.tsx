@@ -36,12 +36,22 @@ const Home = (): JSX.Element => {
         <link rel="icon" href={'/favicon.ico'} />
       </Head>
 
-      <main>
-        <h1>{id}</h1>
-        <h1>{userId}</h1>
-        <h1>{title}</h1>
-        <h1>{completed}</h1>
+      <main className="main">
+        <h1>Test data</h1>
+        <h2>ID: {id}</h2>
+        <h2>User ID: {userId}</h2>
+        <h2>Title: {title}</h2>
+        <h2>Completed: {completed}</h2>
       </main>
+      <style jsx>{`
+        .main {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      `}</style>
     </div>
   )
 }
